@@ -1,5 +1,0 @@
-pytest
-requests
-faker
-jsonschema
-pytest-html
