@@ -35,6 +35,6 @@ def test_update_item(base_url):
 
 def test_delete_item(base_url):
     response = requests.delete(f"{base_url}/items/1")
-    
+
     assert response.status_code == 200
     assert response.json()["result"] == "deleted"
