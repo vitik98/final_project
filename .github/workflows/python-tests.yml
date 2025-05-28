@@ -1,11 +1,3 @@
-name: Python application tests
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,12 +9,18 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: 3.11
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Run mock API in background
+      run: |
+        nohup python mock_api.py > flask.log 2>&1 &
+        sleep 3  # даём Flask время подняться
+
     - name: Run tests
-      run: pytest --maxfail=1 --disable-warnings --tb=short
+      run: |
+        pytest --maxfail=1 --disable-warnings --tb=short --html=report.html --self-contained-html
